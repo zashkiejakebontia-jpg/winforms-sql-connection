@@ -32,25 +32,80 @@ private void loadData()
     }
 }
 
-    private void btnAdd_Click(object sender, EventArgs e)
+ private void btnAdd_Click(object sender, EventArgs e)
+{
+    try
     {
-
+        var student = new TestWins.Model.Student
+        {
+            studentId = txtStudentId.Text,
+            Name = txtName.Text,
+            age = int.Parse(txtAge.Text),
+            course = txtCourse.Text
+        };
+        controller.createStudent(student);
+        loadData();
+        clearFields();
     }
-
-    private void btnUpdate_Click(object sender, EventArgs e)
+    catch (Exception ex)
     {
-
+        MessageBox.Show("Error adding student: " + ex.Message);
     }
+}
 
-    private void btnDelete_Click(object sender, EventArgs e)
+private void btnUpdate_Click(object sender, EventArgs e)
+{
+    try
     {
-
-
-
+        var student = new TestWins.Model.Student
+        {
+            studentId = txtStudentId.Text,
+            Name = txtName.Text,
+            age = int.Parse(txtAge.Text),
+            course = txtCourse.Text
+        };
+        controller.update(student);
+        loadData();
+        clearFields();
     }
-
-    private void dataGridView1_CellClick(object sender, EventArgs e)
+    catch (Exception ex)
     {
-
+        MessageBox.Show("Error updating student: " + ex.Message);
     }
+}
+
+private void btnDelete_Click(object sender, EventArgs e)
+{
+    try
+    {
+        controller.delete(txtStudentId.Text);
+        loadData();
+        clearFields();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error deleting student: " + ex.Message);
+    }
+}
+
+private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+{
+    if (dataGridView1.CurrentRow != null)
+    {
+        DataGridViewRow row = dataGridView1.CurrentRow;
+        txtStudentId.Text = row.Cells[0].Value.ToString();
+        txtName.Text = row.Cells[1].Value.ToString();
+        txtAge.Text = row.Cells[2].Value.ToString();
+        txtCourse.Text = row.Cells[3].Value.ToString();
+    }
+}
+
+
+private void clearFields()
+{
+    txtStudentId.Text = "";
+    txtName.Text = "";
+    txtAge.Text = "";
+    txtCourse.Text = "";
+}
 }
